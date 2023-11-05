@@ -1,3 +1,22 @@
+def render_gamestate(gamestate):
+    x = gamestate[0:9]
+    o = gamestate[9:]
+    tokens = []
+    for i in range(9):
+        if x[i] == 1:
+            tokens.append('X')
+        elif o[i] == 1:
+            tokens.append('O')
+        else:
+            tokens.append('_')
+
+    b = f'_{tokens[0]}_|_{tokens[1]}_|_{tokens[2]}_\n' \
+        f'_{tokens[3]}_|_{tokens[4]}_|_{tokens[5]}_\n' \
+        f'_{tokens[6]}_|_{tokens[7]}_|_{tokens[8]}_\n'
+
+    return b
+
+
 def evaluate_side(gamestate):
     result = 0
     for i in [0,3,6]:
