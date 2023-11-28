@@ -16,6 +16,31 @@ def render_gamestate(gamestate):
 
     return b
 
+def mp_game(AI):
+    gamestate = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    x = gamestate[0:9]
+    o = gamestate[9:]
+    while evaluate_game(gamestate) == 0:
+        x_move = AI.choose_move(x+o)
+        x_new = []
+        for i in range(9):
+            if i == x_move:
+                x_new.append(1)
+            else:
+                x_new.append(o[i])
+        x = x_new
+        print(render_gamestate(x+o))
+        o_move = input('Enter #: ')
+        o_new = []
+        for i in range(9):
+            if i == o_move:
+                o_new.append(1)
+            else:
+                o_new.append(o[i])
+        o = o_new
+        print(render_gamestate(x + o))
+        gamestate = x + o
+
 
 def evaluate_side(gamestate):
     result = 0
@@ -30,12 +55,16 @@ def evaluate_side(gamestate):
 
     return result
 
-def evaluate_game(gamestate, token):
+def evaluate_game(gamestate):
     if sum(gamestate) == 9:
-        return 0.1
+        return 0.5
     else:
-        if token == 'x':
-            return evaluate_side(gamestate[0:9])
-        elif token == 'o':
-            return evaluate_side(gamestate[9:])
+        my_value =  evaluate_side(gamestate[0:9])
+        opponent_value = evaluate_side(gamestate[9:]) * -1
+    if my_value !=0:
+        return my_value
+    if opponent_value !=0:
+        return opponent_value
+    else:
+        return 0
 
